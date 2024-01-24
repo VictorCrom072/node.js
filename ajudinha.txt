@@ -1,0 +1,17 @@
+//criar package.json
+npm init -y
+
+//instalar Express
+npm install express --save
+
+//executar projeto
+node (locar onde está seu app)/app.js(nome do app)
+
+//parar projeto <-- Vai saber
+ctrl+c
+
+//instalar nodemon
+npm install nodemon -D
+
+//executar script
+npm run dev
