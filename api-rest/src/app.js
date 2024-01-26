@@ -52,4 +52,12 @@ app.delete('/selecoes/:id', (req, res) => {
   res.send('seleção deletada com sucesso!')
 })
 
+//rota para alterar objeto do array por id
+app.put('/selecoes/:id', (req, res) => {
+  let index = buscarIndexId(req.params.id)
+  selecoes[index].selecao = req.body.selecao
+  selecoes[index].grupo = req.body.grupo
+  res.json(selecoes)
+})
+
 export default app
