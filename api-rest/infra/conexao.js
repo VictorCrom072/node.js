@@ -1,6 +1,6 @@
-import mysql from 'mysql'
+import mysql from 'mysql2'
 
-mysql.createConnection({
+const conexao = mysql.createConnection({
     host: "localhost",
     port: "3306",
     user: "root",
