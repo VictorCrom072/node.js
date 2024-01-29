@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 })
 
 //rota para buscar todos os objetos
-app.get('/selecoes', (req, res) => {
-  const query = "select * from selecoes;"
+app.get('/usuarios', (req, res) => {
+  const query = "select * from usuarios;"
   conexao.query(query, (erro, result) => {
     if(erro){
       res.status(404).json({"erro" : erro})
@@ -34,10 +34,10 @@ app.get('/selecoes', (req, res) => {
 })
 
 //buscar pelo paramentro no get
-app.get('/selecoes/:id', (req, res) => {
+app.get('/usuarios/:id', (req, res) => {
   //res.json(buscarSelecaoId(req.params.id))
   const id = req.params.id
-  const query = 'select * from selecoes where id = ?;'
+  const query = 'select * from usuarios where id = ?;'
   conexao.query(query, id, (erro, result) => {
     if(erro){
       res.status(404).json({"erro" : erro})
@@ -48,9 +48,9 @@ app.get('/selecoes/:id', (req, res) => {
 })
 
 //rota para criação de objeto por JSON
-app.post('/selecoes', (req, res) => {
+app.post('/usuarios', (req, res) => {
   let selecao = req.body
-  const query = "insert into selecoes set ?;"
+  const query = "insert into usuarios set ?;"
   conexao.query(query, selecao, (erro, result) => {
     if(erro){
       res.status(400).json({"erro" : erro})
@@ -61,9 +61,9 @@ app.post('/selecoes', (req, res) => {
 })
 
 //rota para deletar objeto do array
-app.delete('/selecoes/:id', (req, res) => {
+app.delete('/usuarios/:id', (req, res) => {
   const id = req.params.id
-  const query = 'delete from selecoes where id = ?;'
+  const query = 'delete from usuarios where id = ?;'
   conexao.query(query, id, (erro, result) => {
     if(erro){
       res.status(404).json({"erro" : erro})
@@ -74,10 +74,10 @@ app.delete('/selecoes/:id', (req, res) => {
 })
 
 //rota para alterar objeto do array por id
-app.put('/selecoes/:id', (req, res) => {
+app.put('/usuarios/:id', (req, res) => {
   const id = req.params.id
   let selecao = req.body
-  const query = "update selecoes set ? where id = ?;"
+  const query = "update usuarios set ? where id = ?;"
   conexao.query(query, [selecao, id], (erro, result) => {
     if(erro){
       res.status(400).json({"erro" : erro})

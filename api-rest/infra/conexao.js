@@ -5,7 +5,7 @@ const conexao = mysql.createConnection({
     port: "3306",
     user: "root",
     password: "12345678",
-    database: "bd_copa"
+    database: "bd_usuarios_node"
 })
 
 conexao.connect()

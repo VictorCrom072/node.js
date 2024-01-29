@@ -1,22 +1,17 @@
-drop database if exists bd_copa;
-create database bd_copa;
-use bd_copa;
+drop database if exists bd_usuarios_node;
+create database bd_usuarios_node;
+use bd_usuarios_node;
 
-create table selecoes(
+create table usuarios(
 	id int primary key auto_increment,
-    selecao varchar(25) not null,
-    grupo char(1) not null
+    usuario varchar(40) not null,
+    email varchar(40) not null,
+    senha char(20) not null
 );
 
-insert into selecoes values (default, "Holanda", "A");
-insert into selecoes values (default, "Senegal", "A");
-insert into selecoes values (default, "Equador", "A");
-insert into selecoes values (default, "Catar", "A");
+insert into usuarios values (default, 'Thiago', 'thia@gmail.com', '123456');
+insert into usuarios values (default, 'Henrique', 'henr@gmail.com', '123456');
+insert into usuarios values (default, 'Augusto', 'augu@gmail.com', '123456');
+insert into usuarios values (default, 'Yasmin', 'yasm@gmail.com', '123456');
 
-select * from selecoes;
-
-select * from selecoes where id = 1;
-
-delete from selecoes where id = 1;
-
-update selecoes set selecao = 'Paises Baixos' and grupo = 'A' where id = 1;
+select * from usuarios;
