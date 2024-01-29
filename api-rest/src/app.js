@@ -1,16 +1,9 @@
 import express from 'express'
+import conexao from '../infra/conexao.js'
 
 const app = express()
 
 app.use(express.json())
-
-//mock
-const selecoes = [
-  {id: 1, selecao: 'Brasil', grupo: 'G'},
-  {id: 2, selecao: 'Suiça', grupo: 'G'},
-  {id: 3, selecao: 'Sérvia', grupo: 'G'},
-  {id: 4, selecao: 'Camarôes', grupo: 'G'},
-];
 
 //devolve o objeto do array pelo id
 function buscarSelecaoId(id){
@@ -22,6 +15,7 @@ function buscarIndexId(id){
   return selecoes.findIndex(selecao => selecao.id == id)
 }
 
+//ROTAS
 //criação de rota padrão
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -29,35 +23,68 @@ app.get('/', (req, res) => {
 
 //rota para buscar todos os objetos
 app.get('/selecoes', (req, res) => {
-  res.status(200).send(selecoes)
+  const query = "select * from selecoes;"
+  conexao.query(query, (erro, result) => {
+    if(erro){
+      res.status(404).json({"erro" : erro})
+    } else {
+      res.status(200).send(result)
+    }
+  })
 })
 
 //buscar pelo paramentro no get
 app.get('/selecoes/:id', (req, res) => {
-  //let index = req.params.id
-  //console.log(index)
-  res.json(buscarSelecaoId(req.params.id))
+  //res.json(buscarSelecaoId(req.params.id))
+  const id = req.params.id
+  const query = 'select * from selecoes where id = ?;'
+  conexao.query(query, id, (erro, result) => {
+    if(erro){
+      res.status(404).json({"erro" : erro})
+    } else {
+      res.status(200).send(result)
+    }
+  })
 })
 
 //rota para criação de objeto por JSON
 app.post('/selecoes', (req, res) => {
-  selecoes.push(req.body)
-  res.status(201).send('seleção cadastrada com sucesso!')
+  let selecao = req.body
+  const query = "insert into selecoes set ?;"
+  conexao.query(query, selecao, (erro, result) => {
+    if(erro){
+      res.status(400).json({"erro" : erro})
+    } else {
+      res.status(201).send(result)
+    }
+  })
 })
 
 //rota para deletar objeto do array
 app.delete('/selecoes/:id', (req, res) => {
-  let index = buscarIndexId(req.params.id)
-  selecoes.splice(index, 1)
-  res.send('seleção deletada com sucesso!')
+  const id = req.params.id
+  const query = 'delete from selecoes where id = ?;'
+  conexao.query(query, id, (erro, result) => {
+    if(erro){
+      res.status(404).json({"erro" : erro})
+    } else {
+      res.status(200).send(result)
+    }
+  })
 })
 
 //rota para alterar objeto do array por id
 app.put('/selecoes/:id', (req, res) => {
-  let index = buscarIndexId(req.params.id)
-  selecoes[index].selecao = req.body.selecao
-  selecoes[index].grupo = req.body.grupo
-  res.json(selecoes)
+  const id = req.params.id
+  let selecao = req.body
+  const query = "update selecoes set ? where id = ?;"
+  conexao.query(query, [selecao, id], (erro, result) => {
+    if(erro){
+      res.status(400).json({"erro" : erro})
+    } else {
+      res.status(209).send(result)
+    }
+  })
 })
 
 export default app
